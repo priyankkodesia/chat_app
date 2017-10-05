@@ -10,10 +10,22 @@
     	})
 
     	socket.on('newMessage',function(message){
-    		console.log("Message recieved on the client side: ",message)
+    		console.log("Message recieved on the client side: ",message);
+    		var username = message.from;
+    		var message = message.text;
+    		var div = '<div class="alert alert-success" role="alert">  <h4 id="incoming-message-user" class="alert-heading">'+username +'</h4><p id="incoming-message">'+message+'</p></div>'
+    	$('#box').prepend(div);
     	});
 
-    	socket.emit('createMessage',{
-    		from : 'Priyank',
-    		text : "This is new message from the client"
+
+    	$('#chat-form').on('submit',function(e){
+    		e.preventDefault();
+
+    		socket.emit('createMessage',{
+    		from : $('#username').val(),
+    		text : $('#message').val()
+    	}, function(){
+
     	});
+
+    	})
