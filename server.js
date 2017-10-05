@@ -16,6 +16,16 @@ var io = socketIO(server);
 io.on('connection',(socket) => {
 	console.log('User connected');
 
+	socket.emit('newMessage',{
+		from:"Admin",
+		text:"Welcome to the Chat App"
+	});
+
+	socket.broadcast.emit('newMessage',{
+		from:"Admin",
+		text:"A new User has joined"
+	})
+
 	socket.on('createMessage',(message) => {
 		console.log("Message recieved on server",message);
 		
@@ -27,7 +37,6 @@ io.on('connection',(socket) => {
 	});
 
 	socket.on('disconnect',() => {
-
 		return console.log("User disconnected")
 	});
 
