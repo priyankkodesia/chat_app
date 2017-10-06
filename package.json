@@ -5,17 +5,18 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"node server.js"
+    "start": "node server.js"
   },
-  "engines" : {
-  	"node" : "8.5.0"
+  "engines": {
+    "node": "8.5.0"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "*",
-    "socket.io": "*",
+    "http": "*",
+    "moment": "^2.18.1",
     "path": "*",
-    "http": "*"
+    "socket.io": "*"
   }
 }

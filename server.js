@@ -2,7 +2,7 @@ const express = require('express')
 const path = require('path')
 const http = require('http')
 const socketIO = require('socket.io')
-var {generate_message} = require('./utils/generate_message.js')
+var {generate_message,generate_location_message} = require('./utils/generate_message.js')
 
 var app = express();
 const publicPath = path.join(__dirname,'./public/')
@@ -26,6 +26,12 @@ io.on('connection',(socket) => {
 		console.log("Message recieved on server",message);
 		
 		io.emit('newMessage',generate_message(message.from,message.text));
+	});
+
+	socket.on('createLocationMessage',(coords) => {
+		console.log('Location message recieved',coords);
+		 io.emit('newLocationMessage',generate_location_message("Admin",coords.latitude,coords.longitude))
+
 	});
 
 	socket.on('disconnect',() => {
