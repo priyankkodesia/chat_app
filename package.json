@@ -17,6 +17,7 @@
     "http": "*",
     "moment": "^2.18.1",
     "path": "*",
-    "socket.io": "*"
+    "socket.io": "*",
+    "mustache": "*"
   }
 }

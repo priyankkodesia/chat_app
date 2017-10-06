@@ -9,26 +9,38 @@ socket.on('disconnect', function () {
 });
 
 socket.on('newMessage', function (message) {
-  console.log('newMessage', message);
   var formattedTime = moment(message.createdAt).format('h:mm a')
+  var template = $('#message-template').html();
+  if(message.text!=""){
+  var html = Mustache.render(template,{
+    from:message.from,
+    createdAt:formattedTime,
+    text:message.text
+    })
+    }
+    else{
+        alert('Please enter some text')
+    }
 
-  var li = jQuery('<li></li>');
-  li.text(`${message.from}: ${message.text}  \t${formattedTime}`);
+  jQuery('#messages').append(html);
+    $('#message-input').val('');
 
-  jQuery('#messages').append(li);
 });
 
 socket.on('newLocationMessage', function (message) {
   var formattedTime = moment(message.createdAt).format('h:mm a')
-  var li = jQuery('<li class="card-body"></li>');
-  var a = jQuery('<a target="_blank">My current location</a>');
+  var url = message.url;
+  var template = $('#location-message-template').html();
+  var html = Mustache.render(template,{
+    from:message.from,
+    createdAt:formattedTime,
+    url:url
+  });
 
-  li.text(`${message.from}: `);
-  a.attr('href', message.url);
-  li.append(a);
-  a.append(` \t ${formattedTime}`)
-  jQuery('#messages').append(li);
+  jQuery('#messages').append(html);
+  $('#message-input').val('');
 });
+
 
 jQuery('#message-form').on('submit', function (e) {
   e.preventDefault();
