@@ -37,17 +37,14 @@
     			return alert('Geolocation not enabled on your device')
     		}
 
-    		var coords = navigator.geolocation.getCurrentPosition(function(position){
+    		var cords = navigator.geolocation.getCurrentPosition(function(position){
 				var latitude = position.coords.latitude;
 				var longitude = position.coords.longitude;
-
-				return {latitude:latitude,longitude:longitude}
+				console.log(latitude,longitude)
 
 	    		},function(err){
     			console.log("Unable to fetch the location")
     		})
+
     	})
 
-module.exports = {
-	coords
-}

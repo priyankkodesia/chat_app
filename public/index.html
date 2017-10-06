@@ -33,11 +33,11 @@
   </div>
     <button type="submit" style="text-align:center;margin-left:30%" class="btn btn-primary">Submit</button>
 
-     <button id="location_button" style="text-align:center;margin-left:5%" class="btn btn-info">Send location</button>
+
 
 </form>
 <div id="map"></div>
-
+     <button id="location_button" style="text-align:center;margin-left:5%" class="btn btn-info">Send location</button>
 
 <br><hr>
 
@@ -60,11 +60,15 @@
 
 
     <!-- custom scripts -->
-    <script>
+      <script>
+      // Note: This example requires that you consent to location sharing when
+      // prompted by your browser. If you see the error "The Geolocation service
+      // failed.", it means you probably did not give permission for the browser to
+      // locate you.
       var map, infoWindow;
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: -34.397, lng: 150.644},
+          center: {lat: -160.397, lng: 32.644},
           zoom: 6
         });
         infoWindow = new google.maps.InfoWindow;
@@ -89,7 +93,19 @@
           handleLocationError(false, infoWindow, map.getCenter());
         }
       }
-  </script>
+
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAB0GSq6jxkxYJgrXwe1R50hAmqbXi3pXs&callback=initMap">
+    </script>
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="./js/index.js"></script>
   </body>
