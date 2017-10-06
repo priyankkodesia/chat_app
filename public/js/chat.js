@@ -17,50 +17,57 @@ function scrollToBottom () {
 }
 
 socket.on('connect', function () {
-  console.log('Connected to server');
+  var params = jQuery.deparam(window.location.search);
+
+  socket.emit('join', params, function (err) {
+    if (err) {
+      alert(err);
+      window.location.href = '/';
+    } else {
+      console.log('No error');
+    }
+  });
 });
 
 socket.on('disconnect', function () {
   console.log('Disconnected from server');
 });
 
-socket.on('newMessage', function (message) {
-  var formattedTime = moment(message.createdAt).format('h:mm a')
-  var template = $('#message-template').html();
-  if(message.text!=""){
-  var html = Mustache.render(template,{
-    from:message.from,
-    createdAt:formattedTime,
-    text:message.text
-    })
-    }
-    else{
-        alert('Please enter some text')
-    }
+socket.on('updateUserList', function (users) {
+  var ol = jQuery('<ol></ol>');
 
-  jQuery('#messages').append(html);
-      scrollToBottom();
+  users.forEach(function (user) {
+    ol.append(jQuery('<li></li>').text(user));
+  });
 
-    $('#message-input').val('');
-
+  jQuery('#users').html(ol);
 });
 
-socket.on('newLocationMessage', function (message) {
-  var formattedTime = moment(message.createdAt).format('h:mm a')
-  var url = message.url;
-  var template = $('#location-message-template').html();
-  var html = Mustache.render(template,{
-    from:message.from,
-    createdAt:formattedTime,
-    url:url
+socket.on('newMessage', function (message) {
+  var formattedTime = moment(message.createdAt).format('h:mm a');
+  var template = jQuery('#message-template').html();
+  var html = Mustache.render(template, {
+    text: message.text,
+    from: message.from,
+    createdAt: formattedTime
   });
 
   jQuery('#messages').append(html);
-    scrollToBottom();
-
-  $('#message-input').val('');
+  scrollToBottom();
 });
 
+socket.on('newLocationMessage', function (message) {
+  var formattedTime = moment(message.createdAt).format('h:mm a');
+  var template = jQuery('#location-message-template').html();
+  var html = Mustache.render(template, {
+    from: message.from,
+    url: message.url,
+    createdAt: formattedTime
+  });
+
+  jQuery('#messages').append(html);
+  scrollToBottom();
+});
 
 jQuery('#message-form').on('submit', function (e) {
   e.preventDefault();
