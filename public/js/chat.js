@@ -37,7 +37,7 @@ socket.on('updateUserList', function (users) {
   var ol = jQuery('<ol></ol>');
 
   users.forEach(function (user) {
-    ol.append(jQuery('<li style="font-size:20px" class="glyphicon glyphicon-play text-success"></li>').text(user));
+    ol.append(jQuery('<li style="font-size:14px" class="glyphicon glyphicon-play text-success"></li>').text(user));
   });
 
   jQuery('#users').html(ol);
