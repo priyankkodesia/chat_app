@@ -2,18 +2,25 @@ var socket = io();
 
 function scrollToBottom () {
   // Selectors
-  var messages = jQuery('#messages');
-  var newMessage = messages.children('li:last-child')
+  var messages = $('#messages');
+  var newMessageHeight = $('#messages li').last().innerHeight();
+  var lastMessageHeight = $('#messages li:nth-last-child(2)').innerHeight();
+
   // Heights
   var clientHeight = messages.prop('clientHeight');
   var scrollTop = messages.prop('scrollTop');
   var scrollHeight = messages.prop('scrollHeight');
-  var newMessageHeight = newMessage.innerHeight();
-  var lastMessageHeight = newMessage.prev().innerHeight();
+
+  console.log('clientHeight',clientHeight)
+    console.log('scrollTop',scrollTop)
+  console.log('scrollHeight',scrollHeight)
+  console.log('newMessageHeight',newMessageHeight)
+  console.log('lastMessageHeight',lastMessageHeight)
 
   if (clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
     messages.scrollTop(scrollHeight);
   }
+
 }
 
 socket.on('connect', function () {
@@ -37,7 +44,7 @@ socket.on('updateUserList', function (users) {
   var ol = jQuery('<ol></ol>');
 
   users.forEach(function (user) {
-    ol.append(jQuery('<li style="font-size:14px" class="glyphicon glyphicon-play text-success"></li>').text(user));
+    ol.append(jQuery('<li ></li>').text(user));
   });
 
   jQuery('#users').html(ol);
